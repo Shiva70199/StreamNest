@@ -46,7 +46,8 @@ app.get('/api/movies', async (req, res) => {
   try {
     const search = req.query.s || 'movie';
     const page = req.query.page || 1;
-    const url = `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${encodeURIComponent(search)}&type=movie&page=${page}`;
+    const type = req.query.type || 'movie'; // movie | series
+    const url = `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${encodeURIComponent(search)}&type=${type}&page=${page}`;
     const resp = await fetch(url);
     const data = await resp.json();
     res.json(data);

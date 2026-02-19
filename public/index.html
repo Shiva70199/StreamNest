@@ -3,65 +3,157 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>STREAMNEST — Your Cozy Corner for Movies</title>
+  <title>STREAMNEST — Sign In</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    .landing-wrap {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+    }
+    .landing-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+    }
+    .landing-bg-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(15,14,18,0.7) 0%, rgba(15,14,18,0.85) 50%, var(--bg) 100%);
+      z-index: 1;
+    }
+    .landing-bg-posters {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      padding: 8px;
+      opacity: 0.35;
+    }
+    .landing-bg-posters img {
+      width: 120px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+    .landing-card {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(26, 24, 32, 0.92);
+      border: 1px solid var(--surface2);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
+      text-align: center;
+    }
+    .landing-card h1 {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      margin-bottom: 0.5rem;
+    }
+    .landing-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.75rem;
+    }
+    .landing-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .landing-btns a {
+      display: block;
+      padding: 0.9rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      text-align: center;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .landing-btns .btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+    }
+    .landing-btns .btn-primary:hover {
+      background: var(--accent-dim);
+    }
+    .landing-btns .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 2px solid var(--text-muted);
+    }
+    .landing-btns .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .landing-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin-bottom: 1.5rem;
+      text-decoration: none;
+    }
+  </style>
 </head>
 <body>
   <div class="noise"></div>
-  <header class="header">
-    <a href="/" class="logo">
-      <span class="logo-icon">◇</span>
-      <span class="logo-text">STREAMNEST</span>
-    </a>
-    <nav class="nav">
-      <a href="/">Home</a>
-      <a href="/signup.html">Sign Up</a>
-      <a href="/login.html">Log In</a>
-    </nav>
-  </header>
-
-  <main>
-    <section class="hero">
+  <div class="landing-wrap">
+    <div class="landing-bg" id="movieBg" aria-hidden="true">
+      <div class="landing-bg-posters" id="bgPosters"></div>
+      <div class="landing-bg-overlay"></div>
+    </div>
+    <div class="landing-card">
+      <a href="/" class="landing-logo">
+        <span class="logo-icon">◇</span> STREAMNEST
+      </a>
       <h1>Nest in. Stream on.</h1>
-      <p>Curated movies in one cozy place. Search, discover, and save your favorites.</p>
-      <div class="search-wrap">
-        <input type="text" id="searchInput" placeholder="Search movies..." autocomplete="off" />
-        <button type="button" id="searchBtn" aria-label="Search">Search</button>
+      <p>Sign in or create an account to browse movies and TV series.</p>
+      <div class="landing-btns">
+        <a href="/login.html" class="btn-primary">Sign In</a>
+        <a href="/signup.html" class="btn-secondary">Sign Up</a>
       </div>
-    </section>
-
-    <section class="movies-section">
-      <h2 class="section-title">Live now</h2>
-      <div id="moviesGrid" class="movies-grid">
-        <div class="skeleton" aria-hidden="true"></div>
-        <div class="skeleton" aria-hidden="true"></div>
-        <div class="skeleton" aria-hidden="true"></div>
-        <div class="skeleton" aria-hidden="true"></div>
-        <div class="skeleton" aria-hidden="true"></div>
-        <div class="skeleton" aria-hidden="true"></div>
-      </div>
-      <div id="loadMoreWrap" class="load-more hidden">
-        <button type="button" id="loadMore">Load more</button>
-      </div>
-      <p id="noResults" class="no-results hidden">No movies found. Try another search.</p>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <p>STREAMNEST — Built with OMDB. Your nest for streaming.</p>
-  </footer>
-
-  <div id="modal" class="modal hidden" aria-hidden="true">
-    <div class="modal-backdrop"></div>
-    <div class="modal-content">
-      <button type="button" class="modal-close" aria-label="Close">&times;</button>
-      <div id="modalBody"></div>
     </div>
   </div>
-
-  <script src="app.js"></script>
+  <script>
+    (function() {
+      try {
+        const user = localStorage.getItem('streamnest_user');
+        if (user) {
+          window.location.href = '/browse.html';
+          return;
+        }
+      } catch (_) {}
+      // Load movie posters for background
+      fetch('/api/movies?s=movie&page=1')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (!data.Search || !data.Search.length) return;
+          var container = document.getElementById('bgPosters');
+          data.Search.slice(0, 20).forEach(function(m) {
+            if (m.Poster && m.Poster !== 'N/A') {
+              var img = document.createElement('img');
+              img.src = m.Poster;
+              img.alt = '';
+              img.loading = 'lazy';
+              container.appendChild(img);
+            }
+          });
+        })
+        .catch(function() {});
+    })();
+  </script>
 </body>
 </html>

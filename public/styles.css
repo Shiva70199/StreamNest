@@ -310,7 +310,7 @@ main {
   color: var(--text);
 }
 
-/* Auth pages */
+/* Auth pages — with movie background */
 .auth-page {
   min-height: 100vh;
   display: flex;
@@ -318,16 +318,48 @@ main {
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  position: relative;
+}
+
+.auth-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.auth-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(15,14,18,0.75) 0%, rgba(15,14,18,0.9) 100%);
+  z-index: 1;
+}
+
+.auth-bg-posters {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px;
+  opacity: 0.3;
+}
+
+.auth-bg-posters img {
+  width: 100px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 4px;
 }
 
 .auth-box {
   width: 100%;
   max-width: 420px;
-  background: var(--surface);
+  background: rgba(26, 24, 32, 0.94);
   border: 1px solid var(--surface2);
   border-radius: var(--radius);
   padding: 2.5rem;
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
 }
 
 .auth-box h1 {
@@ -483,4 +515,254 @@ main {
   font-size: 0.8rem;
   color: var(--accent);
   margin-top: 0.5rem;
+}
+
+/* Browse page — hero + horizontal rows */
+.browse-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.browse-sidebar {
+  width: 72px;
+  flex-shrink: 0;
+  background: rgba(15, 14, 18, 0.95);
+  border-right: 1px solid var(--surface2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 0;
+  gap: 1.25rem;
+}
+
+.browse-sidebar a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 1.25rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.browse-sidebar a:hover,
+.browse-sidebar a.active {
+  color: var(--accent);
+  background: rgba(232, 168, 56, 0.1);
+}
+
+.browse-main {
+  flex: 1;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.browse-hero {
+  position: relative;
+  height: 75vh;
+  min-height: 400px;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 2rem 4rem 2rem;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--surface);
+}
+
+.browse-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--bg) 0%, transparent 50%, rgba(0,0,0,0.4) 100%);
+}
+
+.browse-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 520px;
+}
+
+.browse-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+
+.browse-hero-meta {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 1.25rem;
+}
+
+.browse-hero-btns {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.browse-hero-btns .btn-play {
+  padding: 0.6rem 1.5rem;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font: inherit;
+  transition: background 0.2s;
+}
+
+.browse-hero-btns .btn-play:hover {
+  background: var(--accent-dim);
+}
+
+.browse-hero-btns .btn-outline {
+  padding: 0.6rem 1.5rem;
+  background: transparent;
+  color: var(--text);
+  border: 2px solid var(--text-muted);
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font: inherit;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.browse-hero-btns .btn-outline:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.browse-rows {
+  padding: 0 2rem 3rem;
+  margin-top: -2rem;
+  position: relative;
+  z-index: 3;
+}
+
+.browse-row-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 1rem;
+  letter-spacing: 0.02em;
+}
+
+.browse-row {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.browse-row::-webkit-scrollbar {
+  height: 8px;
+}
+
+.browse-row::-webkit-scrollbar-track {
+  background: var(--surface2);
+  border-radius: 4px;
+}
+
+.browse-row::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 4px;
+}
+
+.browse-poster {
+  flex-shrink: 0;
+  width: 160px;
+  scroll-snap-align: start;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--surface2);
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.browse-poster:hover {
+  transform: scale(1.05);
+  border-color: rgba(232, 168, 56, 0.5);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.browse-poster img {
+  width: 100%;
+  aspect-ratio: 2/3;
+  object-fit: cover;
+  display: block;
+}
+
+.browse-poster .info {
+  padding: 0.5rem 0.6rem;
+  background: var(--surface);
+}
+
+.browse-poster .title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.browse-poster .year {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.browse-row-section {
+  margin-bottom: 2.5rem;
+}
+
+.browse-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: rgba(15, 14, 18, 0.9);
+  border-bottom: 1px solid var(--surface2);
+}
+
+.browse-header .logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.browse-header .logo .logo-icon {
+  color: var(--accent);
+}
+
+.browse-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.browse-header-actions a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.browse-header-actions a:hover {
+  color: var(--accent);
+}
+
+.browse-skeleton-poster {
+  flex-shrink: 0;
+  width: 160px;
+  aspect-ratio: 2/3;
+  border-radius: var(--radius);
+  background: linear-gradient(90deg, var(--surface2) 25%, var(--surface) 50%, var(--surface2) 75%);
+  background-size: 200% 100%;
+  animation: skeleton 1.2s ease-in-out infinite;
 }

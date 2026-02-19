@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STREAMNEST — Browse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="browse-layout">
+    <aside class="browse-sidebar">
+      <a href="/browse.html" class="active" aria-label="Home">⌂</a>
+      <a href="/browse.html#movies" aria-label="Movies">▢</a>
+      <a href="/browse.html#series" aria-label="TV Series">▭</a>
+    </aside>
+    <div class="browse-main">
+      <header class="browse-header">
+        <a href="/browse.html" class="logo">
+          <span class="logo-icon">◇</span>
+          <span>STREAMNEST</span>
+        </a>
+        <div class="browse-header-actions">
+          <span id="userName" class="user-name"></span>
+          <a href="/" id="signOut">Sign out</a>
+        </div>
+      </header>
+
+      <section class="browse-hero" id="heroSection">
+        <div class="browse-hero-overlay"></div>
+        <div class="browse-hero-content">
+          <h1 class="browse-hero-title" id="heroTitle">Loading...</h1>
+          <p class="browse-hero-meta" id="heroMeta"></p>
+          <div class="browse-hero-btns">
+            <button type="button" class="btn-play" id="heroPlay">Play</button>
+            <button type="button" class="btn-outline" id="heroTrailer">Watch Trailer</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="browse-rows">
+        <div class="browse-row-section" id="rowNew">
+          <h2 class="browse-row-title">New this week</h2>
+          <div class="browse-row" id="rowNewInner">
+            <div class="browse-skeleton-poster"></div>
+            <div class="browse-skeleton-poster"></div>
+            <div class="browse-skeleton-poster"></div>
+            <div class="browse-skeleton-poster"></div>
+            <div class="browse-skeleton-poster"></div>
+          </div>
+        </div>
+        <div class="browse-row-section" id="rowTrending">
+          <h2 class="browse-row-title">Trending Now</h2>
+          <div class="browse-row" id="rowTrendingInner">
+            <div class="browse-skeleton-poster"></div>
+            <div class="browse-skeleton-poster"></div>
+            <div class="browse-skeleton-poster"></div>
+            <div class="browse-skeleton-poster"></div>
+            <div class="browse-skeleton-poster"></div>
+          </div>
+        </div>
+        <div class="browse-row-section" id="rowSeries">
+          <h2 class="browse-row-title">TV Series</h2>
+          <div class="browse-row" id="rowSeriesInner">
+            <div class="browse-skeleton-poster"></div>
+            <div class="browse-skeleton-poster"></div>
+            <div class="browse-skeleton-poster"></div>
+            <div class="browse-skeleton-poster"></div>
+            <div class="browse-skeleton-poster"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <button type="button" class="modal-close" aria-label="Close">&times;</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="browse.js"></script>
+</body>
+</html>

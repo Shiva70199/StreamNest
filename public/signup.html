@@ -12,6 +12,10 @@
 <body>
   <div class="noise"></div>
   <div class="auth-page">
+    <div class="auth-bg" id="authBg" aria-hidden="true">
+      <div class="auth-bg-posters" id="authBgPosters"></div>
+      <div class="auth-bg-overlay"></div>
+    </div>
     <div class="auth-box">
       <a href="/" class="logo-link">
         <span class="logo-icon">◇</span> STREAMNEST
@@ -64,6 +68,20 @@
     </div>
   </div>
   <script src="auth.js"></script>
+  <script>
+    (function() {
+      fetch('/api/movies?s=movie&page=1').then(function(r) { return r.json(); }).then(function(data) {
+        if (!data.Search || !data.Search.length) return;
+        var el = document.getElementById('authBgPosters');
+        data.Search.slice(0, 24).forEach(function(m) {
+          if (m.Poster && m.Poster !== 'N/A') {
+            var img = document.createElement('img'); img.src = m.Poster; img.alt = ''; img.loading = 'lazy';
+            el.appendChild(img);
+          }
+        });
+      }).catch(function() {});
+    })();
+  </script>
   <script>
     const form = document.getElementById('signupForm');
     const sendOtpBtn = document.getElementById('sendOtp');

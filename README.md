@@ -4,9 +4,10 @@ A distinctive streaming landing page — **nest in, stream on.** Browse live mov
 
 ## Features
 
-- **Landing page** — Search and browse movies via [OMDB API](http://www.omdbapi.com/), with a cozy “nest” theme and clean UI
-- **Sign up** — User ID, username, email, password, confirm password, phone number, and **real-time OTP** (SMS via Twilio when configured)
-- **Login** — Sign in with User ID or email and password
+- **Landing** — Sign In / Sign Up first, with live movie posters in the background (OMDB). Logged-in users are redirected to Browse.
+- **Sign up** — User ID, username, email, password, confirm password, phone number, and **real-time OTP** (SMS via Twilio when configured). Signup and login pages also show movies in the background.
+- **Login** — Sign in with User ID or email and password; after login you go to the full browse experience.
+- **Browse** — After login: hero featured title, “New this week”, “Trending Now”, and TV Series rows — all **live** data from [OMDB API](http://www.omdbapi.com/). Same cozy “nest” theme.
 - **Database** — Aiven MySQL: users and OTP codes; passwords hashed with bcrypt
 - **OTP** — In dev mode (`OTP_DEV_MODE=true`), OTP is logged in the server console and shown in the signup form; set Twilio env vars for real SMS
 
@@ -35,7 +36,7 @@ A distinctive streaming landing page — **nest in, stream on.** Browse live mov
 
 - `server.js` — Express server, OMDB proxy, auth and OTP APIs, MySQL
 - `db.js` — Aiven MySQL connection and table init (`users`, `otp_codes`)
-- `public/` — Static frontend: `index.html` (landing), `signup.html`, `login.html`, `styles.css`, `app.js`, `auth.js`
+- `public/` — Static frontend: `index.html` (landing: Sign In/Up + movie bg), `signup.html`, `login.html`, `browse.html` (movie/TV browse after login), `styles.css`, `app.js`, `auth.js`, `browse.js`
 
 ## Tech
 
