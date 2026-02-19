@@ -7,7 +7,7 @@ const dbConfig = {
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME || 'defaultdb',
-  ssl: process.env.DB_SSL === 'REQUIRED' ? { rejectUnauthorized: true } : undefined,
+  ssl: process.env.DB_SSL === 'REQUIRED' ? { rejectUnauthorized: false } : undefined,
 };
 
 let pool;
