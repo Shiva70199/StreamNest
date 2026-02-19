@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up — STREAMNEST</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="auth-page">
+    <div class="auth-box">
+      <a href="/" class="logo-link">
+        <span class="logo-icon">◇</span> STREAMNEST
+      </a>
+      <h1>Create your nest</h1>
+      <p class="subtitle">Join and start streaming in minutes.</p>
+
+      <div id="message" class="message hidden"></div>
+
+      <form id="signupForm">
+        <div class="form-group">
+          <label for="userId">User ID</label>
+          <input type="text" id="userId" name="userId" placeholder="e.g. john_doe" required autocomplete="username" />
+        </div>
+        <div class="form-group">
+          <label for="username">User name</label>
+          <input type="text" id="username" name="username" placeholder="Your display name" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Min 6 characters" required minlength="6" />
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm password</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Re-enter password" required minlength="6" />
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone number</label>
+          <div class="otp-row">
+            <input type="tel" id="phone" name="phone" placeholder="e.g. +91 9876543210" required />
+            <button type="button" id="sendOtp" class="btn-send-otp">Send OTP</button>
+          </div>
+          <span id="otpTimer" class="dev-otp hidden"></span>
+        </div>
+        <div class="form-group">
+          <label for="otp">OTP (sent to your phone)</label>
+          <input type="text" id="otp" name="otp" placeholder="6-digit code" maxlength="6" pattern="[0-9]{6}" required />
+          <span id="devOtpHint" class="dev-otp hidden"></span>
+        </div>
+        <button type="submit" class="btn-primary" id="submitBtn">Sign up</button>
+      </form>
+
+      <p class="auth-footer">
+        Already have a nest? <a href="/login.html">Log in</a>
+      </p>
+    </div>
+  </div>
+  <script src="auth.js"></script>
+  <script>
+    const form = document.getElementById('signupForm');
+    const sendOtpBtn = document.getElementById('sendOtp');
+    const phoneInput = document.getElementById('phone');
+    const otpInput = document.getElementById('otp');
+    const messageEl = document.getElementById('message');
+    const otpTimerEl = document.getElementById('otpTimer');
+    const devOtpHint = document.getElementById('devOtpHint');
+    const submitBtn = document.getElementById('submitBtn');
+
+    function showMessage(text, type) {
+      messageEl.textContent = text;
+      messageEl.className = 'message ' + type;
+      messageEl.classList.remove('hidden');
+    }
+
+    function hideMessage() {
+      messageEl.classList.add('hidden');
+    }
+
+    let otpCooldown = 0;
+    function startOtpCooldown() {
+      otpCooldown = 60;
+      sendOtpBtn.disabled = true;
+      const id = setInterval(() => {
+        otpCooldown--;
+        otpTimerEl.textContent = 'Resend OTP in ' + otpCooldown + 's';
+        otpTimerEl.classList.remove('hidden');
+        if (otpCooldown <= 0) {
+          clearInterval(id);
+          sendOtpBtn.disabled = false;
+          otpTimerEl.classList.add('hidden');
+        }
+      }, 1000);
+    }
+
+    sendOtpBtn.addEventListener('click', async () => {
+      const phone = phoneInput.value.trim();
+      if (!phone) {
+        showMessage('Please enter your phone number.', 'error');
+        return;
+      }
+      hideMessage();
+      devOtpHint.classList.add('hidden');
+      try {
+        const res = await fetch('/api/otp/send', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          showMessage(data.error || 'Failed to send OTP', 'error');
+          return;
+        }
+        showMessage('OTP sent to your phone. Check your messages.', 'success');
+        if (data.devCode) {
+          devOtpHint.textContent = 'Dev mode: Your OTP is ' + data.devCode;
+          devOtpHint.classList.remove('hidden');
+        }
+        startOtpCooldown();
+      } catch (e) {
+        showMessage('Network error. Try again.', 'error');
+      }
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideMessage();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      if (password !== confirmPassword) {
+        showMessage('Passwords do not match.', 'error');
+        return;
+      }
+      submitBtn.disabled = true;
+      try {
+        const res = await fetch('/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: document.getElementById('userId').value.trim(),
+            username: document.getElementById('username').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            password,
+            confirmPassword,
+            phone: phoneInput.value.trim(),
+            otp: otpInput.value.trim(),
+          }),
+        });
+        const data = await res.json();
+        if (res.ok) {
+          showMessage('Registration successful! Redirecting to login...', 'success');
+          setTimeout(() => { window.location.href = '/login.html'; }, 1500);
+        } else {
+          showMessage(data.error || 'Registration failed', 'error');
+          submitBtn.disabled = false;
+        }
+      } catch (err) {
+        showMessage('Network error. Try again.', 'error');
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STREAMNEST — Your Cozy Corner for Movies</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="noise"></div>
+  <header class="header">
+    <a href="/" class="logo">
+      <span class="logo-icon">◇</span>
+      <span class="logo-text">STREAMNEST</span>
+    </a>
+    <nav class="nav">
+      <a href="/">Home</a>
+      <a href="/signup.html">Sign Up</a>
+      <a href="/login.html">Log In</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Nest in. Stream on.</h1>
+      <p>Curated movies in one cozy place. Search, discover, and save your favorites.</p>
+      <div class="search-wrap">
+        <input type="text" id="searchInput" placeholder="Search movies..." autocomplete="off" />
+        <button type="button" id="searchBtn" aria-label="Search">Search</button>
+      </div>
+    </section>
+
+    <section class="movies-section">
+      <h2 class="section-title">Live now</h2>
+      <div id="moviesGrid" class="movies-grid">
+        <div class="skeleton" aria-hidden="true"></div>
+        <div class="skeleton" aria-hidden="true"></div>
+        <div class="skeleton" aria-hidden="true"></div>
+        <div class="skeleton" aria-hidden="true"></div>
+        <div class="skeleton" aria-hidden="true"></div>
+        <div class="skeleton" aria-hidden="true"></div>
+      </div>
+      <div id="loadMoreWrap" class="load-more hidden">
+        <button type="button" id="loadMore">Load more</button>
+      </div>
+      <p id="noResults" class="no-results hidden">No movies found. Try another search.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>STREAMNEST — Built with OMDB. Your nest for streaming.</p>
+  </footer>
+
+  <div id="modal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <button type="button" class="modal-close" aria-label="Close">&times;</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

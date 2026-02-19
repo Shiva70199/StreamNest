@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log In — STREAMNEST</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="auth-page">
+    <div class="auth-box">
+      <a href="/" class="logo-link">
+        <span class="logo-icon">◇</span> STREAMNEST
+      </a>
+      <h1>Welcome back</h1>
+      <p class="subtitle">Sign in to continue to your nest.</p>
+
+      <div id="message" class="message hidden"></div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="loginId">User ID or Email</label>
+          <input type="text" id="loginId" name="loginId" placeholder="User ID or email" required autocomplete="username" />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Your password" required autocomplete="current-password" />
+        </div>
+        <button type="submit" class="btn-primary" id="submitBtn">Log in</button>
+      </form>
+
+      <p class="auth-footer">
+        Don’t have a nest? <a href="/signup.html">Sign up</a>
+      </p>
+    </div>
+  </div>
+  <script>
+    const form = document.getElementById('loginForm');
+    const messageEl = document.getElementById('message');
+    const submitBtn = document.getElementById('submitBtn');
+
+    function showMessage(text, type) {
+      messageEl.textContent = text;
+      messageEl.className = 'message ' + type;
+      messageEl.classList.remove('hidden');
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      messageEl.classList.add('hidden');
+      submitBtn.disabled = true;
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            loginId: document.getElementById('loginId').value.trim(),
+            password: document.getElementById('password').value,
+          }),
+        });
+        const data = await res.json();
+        if (res.ok) {
+          showMessage('Login successful! Taking you home...', 'success');
+          if (data.user) {
+            try { localStorage.setItem('streamnest_user', JSON.stringify(data.user)); } catch (_) {}
+          }
+          setTimeout(() => { window.location.href = '/'; }, 1000);
+        } else {
+          showMessage(data.error || 'Login failed', 'error');
+          submitBtn.disabled = false;
+        }
+      } catch (err) {
+        showMessage('Network error. Try again.', 'error');
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
